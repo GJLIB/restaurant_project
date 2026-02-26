@@ -49,36 +49,7 @@
 
                     <hr>
 
-                    <!-- Меню -->
-                    <h5 class="mb-3">Оберіть страви</h5>
-
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Страва</th>
-                                    <th>Ціна</th>
-                                    <th width="120">Кількість</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in menu_items %}
-                                <tr>
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.price }} грн</td>
-                                    <td>
-                                        <input type="number"
-                                               name="quantity_{{ item.id }}"
-                                               min="0"
-                                               value="0"
-                                               class="form-control">
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
+            
                     <div class="text-end mt-4">
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-check-circle"></i>

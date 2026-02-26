@@ -7,8 +7,38 @@ class menu_list(View):
     def get(self, request):
         categories = Category.objects.all()
         return render(request, 'menu/menu_list.html', {'categories': categories})
-    def post(self, request):
-        cart = session
+    
+class AddToCartView(View):
+    def post(self, request, menu_id):
+        cart = request.session.get('cart', {})
+        if str(menu_id) in cart:
+            cart[str(menu_id)] += 1
+        else:
+            cart[str(menu_id)] = 1
+        request.session['cart'] = cart
+        return redirect('menu_list')
+
+
+class CartView(View):
+    def get(self, request):
+        cart = request.session.get('cart', {})
+        cart_items = []
+        total_price = 0
+
+        for menu_id, quantity in cart.items():
+            menu_item = get_object_or_404(Menu, id=menu_id)
+            item_total = menu_item.price * quantity
+            total_price += item_total
+            cart_items.append({
+                'menu_item': menu_item,
+                'quantity': quantity,
+                'item_total': item_total
+            })
+
+        return render(request, 'cart/cart.html', {
+            'cart_items': cart_items,
+            'total_price': total_price
+        })
 
 
 class OrderListView(View):
@@ -38,15 +68,15 @@ class OrderCreateView(View):
             phone=phone,
             address=address
         )
+        cart = request.session.get('cart', {})
 
         # Отримуємо всі позиції меню
-        for item in Menu.objects.all():
-            quantity = request.POST.get(f"quantity_{item.id}")
-            if quantity and int(quantity) > 0:
-                OrderItem.objects.create(
-                    order=order,
-                    menu_item=item,
-                    quantity=int(quantity)
-                )
-
+        for item in cart:
+            dish = Menu.objects.get(id = int(item))
+            OrderItem.objects.create(
+                order=order,
+                menu_item=dish,
+                quantity=cart[item]
+            )
+        request.session['cart'] = {}
         return redirect("order_detail", pk=order.pk)

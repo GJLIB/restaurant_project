@@ -2,6 +2,12 @@
 {% load static %}
 
 {% block content %}
+<div class="ms-auto">
+    <a href="{% url 'cart' %}" class="btn btn-outline-light">
+        <i class="bi bi-cart3"></i>
+        Кошик
+    </a>
+</div>
 <div class="mb-4">
     <a href="{% url 'order_list' %}" class="btn btn-outline-secondary btn-sm">
         <i class="bi bi-arrow-right"></i>
@@ -54,12 +60,14 @@
                                             {{ dish.price }} грн
                                         </span>
                                     </div>
-                                
-                                    <a href="{% url 'order_create' %}" 
-                                       class="btn btn-dark w-100">
-                                        <i class="bi bi-cart-plus"></i>
-                                        Замовити
-                                    </a>
+                                    <form action="{% url 'add_to_cart' dish.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                            class="btn btn-dark w-100">
+                                            <i class="bi bi-cart-plus"></i>
+                                            Замовити
+                                        </button>
+                                    </form>
                                 
                                 </div>
 
