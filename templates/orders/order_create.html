@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Створення замовлення{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <a href="{% url 'menu_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i>
+        На головне меню
+    </a>
+</div>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-cart-check"></i>
+                    Оформлення замовлення
+                </h4>
+            </div>
+
+            <div class="card-body">
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Дані клієнта -->
+                    <h5 class="mb-3">Дані клієнта</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ім'я</label>
+                        <input type="text" name="customer_name" 
+                               class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Телефон</label>
+                        <input type="text" name="phone" 
+                               class="form-control" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Адреса доставки</label>
+                        <textarea name="address" 
+                                  class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <hr>
+
+                    <!-- Меню -->
+                    <h5 class="mb-3">Оберіть страви</h5>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Страва</th>
+                                    <th>Ціна</th>
+                                    <th width="120">Кількість</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in menu_items %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.price }} грн</td>
+                                    <td>
+                                        <input type="number"
+                                               name="quantity_{{ item.id }}"
+                                               min="0"
+                                               value="0"
+                                               class="form-control">
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i>
+                            Підтвердити замовлення
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -2,20 +2,25 @@
 {% load static %}
 
 {% block content %}
+<div class="mb-4">
+    <a href="{% url 'order_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-right"></i>
+        Список замовлень
+    </a>
+</div>
 
-<div class="container py-5">
+<div class="py-5">
 
     <h1 class="text-center mb-5">Наше меню</h1>
 
     {% for category in categories %}
         <div class="mb-5">
 
-            <!-- Назва категорії -->
             <h2 class="mb-4 border-bottom pb-2">
                 {{ category.name }}
             </h2>
 
-            <div class="row">
+            <div class="row justify-content-center">
 
                 {% for dish in category.dishes.all %}
                     {% if dish.available %}
@@ -42,10 +47,20 @@
                                     {{ dish.description|truncatewords:15 }}
                                 </p>
 
-                                <div class="mt-auto d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold fs-5">
-                                        {{ dish.price }} грн
-                                    </span>
+                                <div class="mt-auto">
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="fw-bold fs-5">
+                                            {{ dish.price }} грн
+                                        </span>
+                                    </div>
+                                
+                                    <a href="{% url 'order_create' %}" 
+                                       class="btn btn-dark w-100">
+                                        <i class="bi bi-cart-plus"></i>
+                                        Замовити
+                                    </a>
+                                
                                 </div>
 
                             </div>

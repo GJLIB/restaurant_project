@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Деталі замовлення{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <a href="{% url 'menu_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i>
+        На головне меню
+    </a>
+</div>
+<div class="mb-4">
+    <a href="{% url 'order_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i>
+        Назад
+    </a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">
+            <i class="bi bi-receipt"></i>
+            Замовлення №{{ order.id }}
+        </h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h6 class="text-muted">Клієнт</h6>
+                <p class="mb-1"><strong>{{ order.customer_name }}</strong></p>
+                <p class="mb-1">{{ order.phone }}</p>
+                <p class="mb-0">{{ order.address }}</p>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+                <h6 class="text-muted">Дата створення</h6>
+                <p>{{ order.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+        </div>
+
+        <h5 class="mb-3">Склад замовлення</h5>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Страва</th>
+                        <th>Кількість</th>
+                        <th>Ціна</th>
+                        <th>Сума</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.menu_item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.menu_item.price }} грн</td>
+                        <td>
+                            {{ item.menu_item.price|floatformat:2|add:"0"|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
