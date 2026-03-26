@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="ms-auto">
-    <a href="{% url 'cart' %}" class="btn btn-outline-light">
+    <a href="{% url 'cart' %}" class="btn btn-outline-dark">
         <i class="bi bi-cart3"></i>
         Кошик
     </a>
@@ -14,7 +14,20 @@
         Список замовлень
     </a>
 </div>
-
+<h2>Увійти в профіль</h2>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_div}}
+    <button type="submit" class="btn btn-primary">Увійти</button>
+    <a href="{% url 'register' %}" class="btn btn-link">Зареєструватися</a>
+</form>
+<h2>Реєстрація</h2>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_div}}
+    <button type="submit" class="btn btn-primary">Зареєструватися</button>
+    <a href="{% url 'login' %}" class="btn btn-link">Увійти</a>
+</form>
 <div class="py-5">
 
     <h1 class="text-center mb-5">Наше меню</h1>
